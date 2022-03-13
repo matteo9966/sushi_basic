@@ -1,0 +1,89 @@
+.navbar-container{
+    display: flex;
+    flex-direction: column;
+    height:15vh;
+    min-height: 15vh;
+    width: 100%;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px); 
+}
+
+.title {
+
+   font-size: 5vh;
+   line-height: 1;
+   text-align: center;
+   min-width:60%;
+   display: flex;
+   gap: 1ch;
+   margin-top: 1vh;
+   margin-left: 1rem;
+   height: 8vh;
+
+}
+.title>h3{
+    line-height: 1;
+    margin:auto;
+    font-size: 8vmin;
+}
+
+.logo{
+    text-align: center;
+}
+
+.title>img{
+    max-height: 100%;
+
+}
+
+.cart-button-area{
+    display: flex;
+    justify-content:center;
+    align-content: center; 
+    width: 40%;
+    margin: auto;
+}
+
+.navbar-container button {
+    border:none;
+    display: flex;
+    text-align: center;
+    border-radius: 1rem;
+    font-size: 3vh;
+    margin-bottom: 2vh;
+    font-family: inherit;
+}
+
+.navbar-container button .carrello{
+    line-height: 1;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 1ch;
+    padding-right: 1ch;
+}
+
+.navbar-container button .ordinazioni-button-logo{
+    background-image: url('../../assets/ordinazioni-button.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 5vh;
+    height: 5vh;
+    margin-left:1ch;
+}
+
+ .counter {
+    
+    border-radius: 50%;
+    height: 4vh;
+    width: 4vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid salmon;
+    margin-top: auto;
+    margin-bottom: auto;
+    
+}
