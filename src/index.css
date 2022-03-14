@@ -1,3 +1,5 @@
+@import 'normalize.css';
+
 @font-face {
   font-family: 'Reggae One';
   src: url('./assets/Reggae_One/ReggaeOne-Regular.ttf');
@@ -18,6 +20,7 @@ code {
 }
 
 .App {
+  overflow: hidden;
   font-family: 'Reggae One';
   display: flex;
   flex-direction: column;

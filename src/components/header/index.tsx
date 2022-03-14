@@ -1,8 +1,8 @@
-import React,{useContext} from "react";
+import React,{FC, useContext} from "react";
 import sushicat from "../../assets/sushicat.png";
 import styles from "./Navbar.module.css";
 import { CartContext } from '../../store/Cart-Context';
-export const Navbar = () => {
+export const Navbar:FC<{onOpenCart:()=>void}> = (props) => {
     const ctx = useContext(CartContext);
     const amount  = ctx.state.cart.length;
     console.log("avviene un render!")
@@ -14,7 +14,7 @@ export const Navbar = () => {
         <h3>Sushi Bamm</h3>
       </div>
       <div className={styles["cart-button-area"]}>
-        <button>
+        <button onClick={props.onOpenCart}>
           <span className={styles["ordinazioni-button-logo"]}></span>{" "}
           <span className={styles.carrello}>Carrello</span>{" "}
           <span className={styles.counter}>{amount}</span>
