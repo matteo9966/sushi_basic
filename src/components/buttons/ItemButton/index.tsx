@@ -5,9 +5,15 @@ export const ItemButton:React.FC<{id:number}>= ({id}) => {
   const ctx = useContext(CartContext);
   const [selected,setSelected] =useState(false);
    const cartItems = ctx.state.cart;
+   
    useEffect(()=>{
-     console.log("devo aggiornare il bordo dei tasti selezionati")
-   },[cartItems])
+    //se id non è in carrello rimuovo 
+    const item = cartItems.find(item=>item.id===id);
+    if(!item){
+      setSelected(false)
+    }
+
+   },[cartItems,id])
 
    const buttonStyle = selected ? `${styles.button} ${styles.selected}` : styles.button
 

@@ -1,0 +1,16 @@
+.custom-button{
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    font-family: inherit;
+    font-size: inherit;
+    padding-top:1vh;
+    padding-bottom:1vh;
+    padding-left: 2ch;
+    padding-right: 3ch;
+    margin: auto;
+    margin-bottom: 3ch;
+    margin-top:2ch;
+    border-radius: 3vh;
+    background-color: gray;
+}

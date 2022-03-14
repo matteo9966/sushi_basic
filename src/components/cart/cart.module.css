@@ -4,6 +4,7 @@
     flex-direction: column;
     overflow-y: hidden;
     font-family: 'Reggae One';
+
 }
 
 .cart-wrapper > i {
@@ -13,7 +14,15 @@
 }
 
 .cart-wrapper ul {
-    max-height: 70vh;
+    max-height: 55vh;
     overflow-y: scroll;
     overflow-x: hidden;
+    padding: 0;
+}
+
+.button-area{
+    position: fixed;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
 }

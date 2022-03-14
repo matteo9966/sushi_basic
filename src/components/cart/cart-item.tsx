@@ -1,13 +1,16 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { IItem } from '../../interfaces/IItem'
 import styles from './cartitem.module.css'
+import { CartContext } from '../../store/Cart-Context'
 export const CartItem:React.FC<{item:IItem}> = (props) => {
+  const ctx = useContext(CartContext);
+
   return (
-    <li className={styles['list-style']}>
+    <li key={props.item.id} className={styles['list-style']}>
         <p className={styles.title}><i>🍣</i>{props.item.id} </p>
         <span className={styles.amount}>
-         <i>-</i>{props.item.amount}<i>+</i>
-         <i>&#10006;</i>
+         <i onClick={()=>ctx.updateItemCount(props.item,-1)}>-</i>{props.item.amount}<i onClick={()=>ctx.updateItemCount(props.item,1)}>+</i>
+         <i onClick={()=>ctx.removeItem(props.item.id)}>&#10006;</i>
         </span>
     </li>
   )
