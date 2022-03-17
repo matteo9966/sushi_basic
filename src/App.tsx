@@ -1,8 +1,10 @@
 import React,{useState} from "react";
-import { ButtonContainer } from "./components/ButtonContainer/ButtonContainer";
+
 import { CartProvider } from "./store/CartProvider";
-import { Navbar } from "./components/header";
+
+// import { Home } from "./pages/Home";
 import {Cart} from './components/cart';
+import {CreaTavolo} from './pages/CreaTavolo';
 function App() {
   const [showCart,setShowCart] = useState(false);
    
@@ -18,8 +20,8 @@ function App() {
     
       <CartProvider>
         {showCart && <Cart onClose={hideCartHandler}></Cart>}
-        <Navbar onOpenCart={showCartHandler}></Navbar>
-        <ButtonContainer></ButtonContainer>
+        {/* <Home></Home> */}
+        <CreaTavolo></CreaTavolo>
       </CartProvider>
     </div>
   );

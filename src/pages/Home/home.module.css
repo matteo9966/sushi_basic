@@ -1,0 +1,48 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: center;
+    margin-bottom: 8vh;
+    
+
+}
+
+.container * {
+    margin: auto;
+    margin-top: 4vh;
+
+}
+
+.logo{
+    max-width: 50vmin;
+    max-height:50vmin;
+    height: 50vmin;
+    width:50vmin;
+
+    
+}
+
+.paragraph-strip{
+    background-color: rgba(0, 0, 0, 0.657);
+    width: 100vw;
+    height: 8vh;
+    padding:1vh;
+    color: rgb(182, 165, 144);
+    text-align: center;
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+
+.paragraph-strip p {
+    margin-top: 0;
+    line-height: 3vh;
+    margin: 0 2ch;
+}
+
+.button-area{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
