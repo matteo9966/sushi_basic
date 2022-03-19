@@ -9,6 +9,12 @@
     
 }
 
+.errorBorder{
+    border: 1px solid rgb(248, 110, 110);
+    background-color: rgba(255, 0, 0, 0.15);
+    color: black;
+}
+
 .input-container{
     margin:2vh auto;
     width: 80%;

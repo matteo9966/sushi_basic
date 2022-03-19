@@ -1,11 +1,13 @@
 import React, { useReducer } from "react";
+import {validatorCallback,validator as validatorFunction} from '../utils/validators/validator';
 // type Reducer<S, A> = (prevState: S, action: A) => S;
-type Validator = (value: string) => boolean;
+
 type State = { value: string; isTouched: boolean };
 type Action =
   | { type: "INPUT"; value: string }
   | { type: "BLUR" }
-  | { type: "RESET" };
+  | { type: "RESET" }
+  | { type: "FOCUS"};
 const initialInputState: State = {
   value: "",
   isTouched: false,
@@ -21,17 +23,21 @@ function reducer(state: State, action: Action): State {
   if (action.type === "RESET") {
     return { isTouched: false, value: "" };
   }
+  if (action.type === "FOCUS"){
+    return {isTouched:false,value:state.value};
+  }
   return initialInputState;
 }
 
-export const useInput = (validator: Validator) => {
+export const useInput = (...validatorCallback:validatorCallback[]) => {
   const [inputState, dispatch] = useReducer(reducer, initialInputState);
 
-  const valueIsValid = validator(initialInputState.value);
-  const hasError = !valueIsValid && inputState.isTouched;
+  const valueIsValid = validatorFunction(inputState.value,...validatorCallback); // se non passo dei callbacks restituisce sempre true
 
-  const changeValueHandler = (value: string) => {
-    dispatch({ type: "INPUT", value: value });
+  const hasError = !valueIsValid && inputState.isTouched;
+  console.log({hasError,valueIsValid});
+  const changeValueHandler = (event:  React.FormEvent<HTMLInputElement>) => {
+    dispatch({ type: "INPUT", value: event.currentTarget.value});
   };
 
   const blurInputHandler = () => {
@@ -42,11 +48,17 @@ export const useInput = (validator: Validator) => {
     dispatch({ type: "RESET" });
   };
 
+  const focusInputHandler = ()=>{
+    dispatch({type:'FOCUS'});
+  }
+
   return {
     value: inputState.value,
     hasError,
     changeValueHandler,
     blurInputHandler,
     resetInputHanler,
+    focusInputHandler
+
   };
 };

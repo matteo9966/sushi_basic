@@ -5,6 +5,7 @@ import { paths } from "./globals/paths";
 // import { Home } from "./pages/Home";
 import { Cart } from "./components/cart";
 import { CreaTavolo } from "./pages/CreaTavolo";
+import { Aggiungiti } from "./pages/Aggiungiti";
 import { Home } from "./pages/Home";
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -25,7 +26,7 @@ function App() {
           <Route path="/" element={<Home></Home>}>
           </Route>
             <Route path={paths.CREATAVOLO} element={<CreaTavolo></CreaTavolo>} />
-            <Route path={paths.AGGIUNGITI} element={<CreaTavolo></CreaTavolo>} />
+            <Route path={paths.AGGIUNGITI} element={<Aggiungiti></Aggiungiti>} />
         </Routes>
       </CartProvider>
     </div>
