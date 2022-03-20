@@ -1,16 +1,17 @@
 import { CartContext } from "./Cart-Context";
 import React, { useReducer } from "react";
-import { IItem } from "../interfaces/IItem";
+import { IItem, IItemCart } from "../interfaces/IItem";
 import { dummy_items } from "./DUMMY_DATA";
 type Action =
   | { type: "ADD"; item: IItem }
   | { type: "REMOVE"; itemID: number }
-  | { type: "UPDATE COUNT"; item: IItem; amount: number };
-type State = { items: IItem[]; cart: IItem[] };
+  | { type: "UPDATE COUNT"; item: IItem; amount: number }
+  | { type: "UPDATE ITEMS LIST"; qnt:number};
+type State = { items: IItem[]; cart: IItemCart[] };
 // type Item = {id:number,amount:number}
 type Reducer = (state: State, action: Action) => State;
 
-function removeItemFromCart(cart: IItem[], id: number) {
+function removeItemFromCart(cart: IItemCart[], id: number) {
   const item = cart.find((item) => item.id === id);
   if (!item) {
     return cart;
@@ -34,7 +35,7 @@ const reducerFunction: Reducer = (state: State, action: Action) => {
     let cart = [...state.cart];
     const item = cart.find((item) => item.id === action.item.id);
     if (!item) {
-      cart.push(action.item);
+      cart.push({id:action.item.id,amount:1});
     } else {
       cart = state.cart.filter((item) => item.id !== action.item.id);
     }
@@ -64,6 +65,18 @@ const reducerFunction: Reducer = (state: State, action: Action) => {
 
     newState.cart.push(updatedItem); //aggiungo l'item con il contatore aggiornato
     return newState;
+  }
+
+  if(action.type==="UPDATE ITEMS LIST"){
+    const quantita = action.qnt;
+    if(quantita<=0){
+      return state
+    }
+    let items:IItem[] = Array.from({length:quantita},(_,index)=>({id:index+1})) 
+    let newState:State = {cart:[],items};
+    return newState
+  
+
   }
 
   return defaultState;

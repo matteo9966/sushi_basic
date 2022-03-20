@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useEffect, useState,useContext } from "react";
+import { CartContext } from "../../store/Cart-Context";
 import { Button } from "../../components/UI/Buttons/Button";
 import { Input } from "../../components/UI/Input";
 import styles from "./creaTavolo.module.css";
 import { useInput } from "../../custom-hooks/use-input";
 import { validators } from "../../utils/validators/validators";
+import { useHttp } from "../../custom-hooks/use-http";
+import { LoadingSpinner } from "../../components/UI/LoadingSpinner";
+import { instance as httpFetch } from "../../fetch/HttpFetch";
+import { CreateTableRequest } from "../../types/CreateTable/CreateTableRequest";
+// import { CreateTableResponse } from "../../types/CreateTable/CreateTableResponse";
+import { ITable } from "../../interfaces/ITable";
+import { IUtente } from "../../interfaces/IUtente";
+import { useNavigate } from "react-router-dom";
 export const CreaTavolo = () => {
+  const ctx = useContext(CartContext);
+  const navigator = useNavigate();
+  const [recievedData, setRecievedData] = useState({});
+  const { error, isLoading, sendRequest } = useHttp<
+    CreateTableRequest,
+    { tavolo: ITable; utente: IUtente }
+  >(httpFetch.createTable);
+ 
+  useEffect(() => {
+     if(recievedData){
+       console.log(recievedData);
+       //TODO: continua da qua passa i dati ricevuti al context e vai alla pagina con il codice tavolo;
+       //errore è nullo
+       console.log("ti porto a una pagina con ")
+      }
+
+     if(error){
+       //non fare nulla
+       console.log(error);
+     }
+
+  }, [recievedData,error]);
+
   const {
     value: nomeValue,
     hasError: nomeHasError,
@@ -40,26 +72,30 @@ export const CreaTavolo = () => {
     validators.isInteger()
   );
 
-  // console.log({nomeHasError,codiceTavoloHasError,copertiHasError,numeroPiattiHasError})
-  
-   const resetInputs = ()=>{
-     resetCopertiInputHanler();
-     resetnumeroPiattiInputHanler();
-     resetNomeInputHanler();
-   }
-
-  const onClickHandler = () => {
-    if(!nomeHasError && !numeroPiattiHasError && !copertiHasError){
-      console.table({ nomeValue, numeroPiattiValue, copertiValue });
-      resetInputs();
-    
-    }
-
+  const resetInputs = () => {
+    resetCopertiInputHanler();
+    resetnumeroPiattiInputHanler();
+    resetNomeInputHanler();
   };
 
-  console.log({ nomeHasError });
+  const  onClickHandler = async () => {
+    if (!nomeHasError && !numeroPiattiHasError && !copertiHasError) {
+      console.table({ nomeValue, numeroPiattiValue, copertiValue });
+      await sendRequest(
+        {
+          nome: nomeValue,
+          tavolo: { coperti: +copertiValue, portate: +numeroPiattiValue },
+        },
+        setRecievedData
+      );
+      resetInputs();
+      
+    }
+  };
+
   return (
     <div className={styles.creatavolo}>
+      {isLoading && <LoadingSpinner></LoadingSpinner>}
       <h3>Crea un tavolo</h3>
       <span className={styles["input-area"]}>
         <Input

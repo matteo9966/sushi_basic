@@ -5,7 +5,7 @@ import { CartContext } from '../../store/Cart-Context';
 export const Navbar:FC<{onOpenCart:()=>void}> = (props) => {
     const ctx = useContext(CartContext);
     const amount  = ctx.state.cart.length;
-    console.log("avviene un render!")
+
 
   return (
     <div className={styles["navbar-container"]}>

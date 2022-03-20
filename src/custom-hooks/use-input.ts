@@ -35,7 +35,7 @@ export const useInput = (...validatorCallback:validatorCallback[]) => {
   const valueIsValid = validatorFunction(inputState.value,...validatorCallback); // se non passo dei callbacks restituisce sempre true
 
   const hasError = !valueIsValid && inputState.isTouched;
-  console.log({hasError,valueIsValid});
+
   const changeValueHandler = (event:  React.FormEvent<HTMLInputElement>) => {
     dispatch({ type: "INPUT", value: event.currentTarget.value});
   };

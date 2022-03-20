@@ -25,7 +25,7 @@ export const ItemButton:React.FC<{id:number}>= ({id}) => {
     else {
       setSelected(true);
     }
-    ctx.addItem({amount:1,id:id});
+    ctx.addItem({id:id});
   }
 
   return (

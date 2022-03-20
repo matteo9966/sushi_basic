@@ -7,6 +7,7 @@ import { Cart } from "./components/cart";
 import { CreaTavolo } from "./pages/CreaTavolo";
 import { Aggiungiti } from "./pages/Aggiungiti";
 import { Home } from "./pages/Home";
+import { Menu } from "./pages/Menu";
 function App() {
   const [showCart, setShowCart] = useState(false);
 
@@ -23,10 +24,10 @@ function App() {
         {showCart && <Cart onClose={hideCartHandler}></Cart>}
 
         <Routes>
-          <Route path="/" element={<Home></Home>}>
-          </Route>
+          <Route path="/" element={<Home></Home>}></Route>
             <Route path={paths.CREATAVOLO} element={<CreaTavolo></CreaTavolo>} />
             <Route path={paths.AGGIUNGITI} element={<Aggiungiti></Aggiungiti>} />
+            <Route path={paths.MENU} element={<Menu onOpenCart={showCartHandler}></Menu>}></Route>
         </Routes>
       </CartProvider>
     </div>

@@ -3,8 +3,12 @@ import { CreateTableResponse } from "../types/CreateTable/CreateTableResponse";
 import { makeFetchConfig } from "../utils/makeFetchConfig";
 class HttpFetch {
   private static instance: HttpFetch;
-  private baseurl = "";
-  private constructor() {}
+  private baseurl = "http://localhost:4444/api/v1";
+  private constructor() {
+    this.createTable= this.createTable.bind(this)
+    this.post= this.post.bind(this)
+   
+  }
 
   public static getInstance() {
     if (!this.instance) {
@@ -27,14 +31,15 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
   */
 
   //la gestione dell'errore avviene tutta dentro il body, il json viene già convertito se l'esito va a buon fine
-  async createTable(body: CreateTableRequest) {
+  async createTable(body: CreateTableRequest){
     try{
+      console.log("this",this);
          const response =  await this.post<CreateTableRequest,CreateTableResponse>('/createTable',body);
          if(response.errorCode!==null){
              throw new Error(response.errorDescription);
          }
 
-         return response.payload;
+         return response.payload ;
 
     }catch(err){
        throw err 
@@ -51,6 +56,8 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
 
   //tutte richieste con un json in pancia
  private async post<RequestBody, ResponseBody>(endpoint: string, body: RequestBody) {
+
+
     const jsonBody = JSON.stringify(body);
     const headers: Headers = new Headers();
     const url = this.baseurl + endpoint;
@@ -66,7 +73,7 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
     const response = await fetch(requestConfig);
     if (!response.ok) {
       let responseBody = response.body;
-      console.log(responseBody);
+     
       throw new Error("è avvenuto un errore");
     }
 

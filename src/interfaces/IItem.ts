@@ -1,4 +1,9 @@
 export interface IItem {
   id: number;
-  amount: number;
+ 
+}
+
+export interface IItemCart{ 
+  id:number;
+  amount:number;
 }

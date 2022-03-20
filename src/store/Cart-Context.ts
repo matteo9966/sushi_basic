@@ -1,6 +1,6 @@
 import React from "react";
-import {IItem} from '../interfaces/IItem'
-type State = {items:IItem[],cart:IItem[]};
+import {IItem, IItemCart} from '../interfaces/IItem'
+type State = {items:IItem[],cart:IItemCart[]};
 export const CartContext:React.Context<{
     state:State,
     addItem:(item:IItem)=>void,

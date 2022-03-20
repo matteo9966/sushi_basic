@@ -4,16 +4,16 @@ type onChange = (event: React.FormEvent<HTMLInputElement>) => void;
 type onBlur = () => void;
 type onFocus = () => void;
 export const Input: React.FC<{
-  type: string;
-  placeholder: string;
-  name: string;
-  id: string;
-  label: string;
-  value: string;
-  hasError:boolean;
-  onChange: onChange;
-  onBlur:onBlur;
-  onFocus:onFocus;
+  type?: string;
+  placeholder?: string;
+  name?: string;
+  id?: string;
+  label?: string;
+  value?: string;
+  hasError?:boolean;
+  onChange?: onChange;
+  onBlur?:onBlur;
+  onFocus?:onFocus;
 }> = ({ type, name, id, placeholder, label, value,onChange,onBlur,onFocus,hasError }) => {
  
   const inputstyle = (!hasError) ? styles.input : `${styles.input} ${styles.errorBorder}`

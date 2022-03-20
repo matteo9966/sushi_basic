@@ -1,8 +1,8 @@
 import React,{useContext} from 'react'
-import { IItem } from '../../interfaces/IItem'
+import { IItem, IItemCart } from '../../interfaces/IItem'
 import styles from './cartitem.module.css'
 import { CartContext } from '../../store/Cart-Context'
-export const CartItem:React.FC<{item:IItem}> = (props) => {
+export const CartItem:React.FC<{item:IItemCart}> = (props) => {
   const ctx = useContext(CartContext);
 
   return (

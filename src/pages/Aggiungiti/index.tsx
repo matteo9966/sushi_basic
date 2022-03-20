@@ -30,7 +30,7 @@ export const Aggiungiti = () => {
     }
   };
 
-  console.log({ nomeHasError });
+
   return (
     <div className={styles.aggiungiti}>
       <h3>Aggiungiti</h3>
