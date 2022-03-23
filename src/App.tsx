@@ -8,6 +8,7 @@ import { CreaTavolo } from "./pages/CreaTavolo";
 import { Aggiungiti } from "./pages/Aggiungiti";
 import { Home } from "./pages/Home";
 import { Menu } from "./pages/Menu";
+import {CondivisioneCodice} from './pages/CondivisioneCodice'
 function App() {
   const [showCart, setShowCart] = useState(false);
 
@@ -28,6 +29,7 @@ function App() {
             <Route path={paths.CREATAVOLO} element={<CreaTavolo></CreaTavolo>} />
             <Route path={paths.AGGIUNGITI} element={<Aggiungiti></Aggiungiti>} />
             <Route path={paths.MENU} element={<Menu onOpenCart={showCartHandler}></Menu>}></Route>
+            <Route path={paths.CONDIVIDICODICE} element={<CondivisioneCodice></CondivisioneCodice>}></Route>
         </Routes>
       </CartProvider>
     </div>

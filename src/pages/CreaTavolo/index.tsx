@@ -13,6 +13,7 @@ import { CreateTableRequest } from "../../types/CreateTable/CreateTableRequest";
 import { ITable } from "../../interfaces/ITable";
 import { IUtente } from "../../interfaces/IUtente";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "../../components/UI/Spinner";
 export const CreaTavolo = () => {
   const ctx = useContext(CartContext);
   const navigator = useNavigate();
@@ -95,7 +96,7 @@ export const CreaTavolo = () => {
 
   return (
     <div className={styles.creatavolo}>
-      {isLoading && <LoadingSpinner></LoadingSpinner>}
+      {isLoading && <Spinner></Spinner>}
       <h3>Crea un tavolo</h3>
       <span className={styles["input-area"]}>
         <Input

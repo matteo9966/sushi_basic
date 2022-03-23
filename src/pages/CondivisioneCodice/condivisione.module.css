@@ -1,0 +1,26 @@
+.main-wrapper{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 100vh;
+
+   
+}
+
+.area-codice{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+.codice-wrapper{
+    border: 1px solid salmon;
+    padding: 3vh 2ch;
+    display: block;
+    width: 50vw;
+
+    background: #ffffff8c;
+    font-size: 4vh;
+    margin: 3vh auto 35vh auto;
+}
