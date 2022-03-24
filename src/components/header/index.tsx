@@ -1,6 +1,7 @@
 import React,{FC, useContext} from "react";
 import sushicat from "../../assets/sushicat.png";
 import styles from "./Navbar.module.css";
+import { LogoHeader } from "../LogoHeader";
 import { CartContext } from '../../store/Cart-Context';
 export const Navbar:FC<{onOpenCart:()=>void}> = (props) => {
     const ctx = useContext(CartContext);
@@ -9,10 +10,8 @@ export const Navbar:FC<{onOpenCart:()=>void}> = (props) => {
 
   return (
     <div className={styles["navbar-container"]}>
-      <div className={styles.title}>
-        <img src={sushicat} alt="logo" />
-        <h3>Sushi Bamm</h3>
-      </div>
+      <LogoHeader></LogoHeader>
+
       <div className={styles["cart-button-area"]}>
         <button onClick={props.onOpenCart}>
           <span className={styles["ordinazioni-button-logo"]}></span>{" "}

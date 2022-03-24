@@ -1,6 +1,6 @@
 import React from "react";
 import {IItem, IItemCart} from '../interfaces/IItem'
-type State = {items:IItem[],cart:IItemCart[]};
+type State = {cart:IItemCart[]};
 export const CartContext:React.Context<{
     state:State,
     addItem:(item:IItem)=>void,
@@ -8,7 +8,7 @@ export const CartContext:React.Context<{
     updateItemCount:(item:IItem,amount:number)=>void
 
 }> = React.createContext({
-    state:{amount:0,items:[],cart:[]} as State,
+    state:{cart:[]} as State,
     addItem:(item:IItem)=>{},
     removeItem:(itemID:number)=>{},
     updateItemCount:(item:IItem,amount:number)=>{},

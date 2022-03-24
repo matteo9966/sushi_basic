@@ -1,8 +1,8 @@
 .navbar-container{
     display: flex;
     flex-direction: column;
-    height:15vh;
-    min-height: 15vh;
+    
+    
     width: 100%;
     z-index: 1;
     background: rgba(255, 255, 255, 0.2);
@@ -43,6 +43,7 @@
     align-content: center; 
     width: 40%;
     margin: auto;
+    margin-top:1vh;
 }
 
 .navbar-container button {

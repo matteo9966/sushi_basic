@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { CartProvider } from "./store/CartProvider";
+import { TableProvider } from "./store/TableProvider";
 import { paths } from "./globals/paths";
 // import { Home } from "./pages/Home";
 import { Cart } from "./components/cart";
@@ -21,9 +22,9 @@ function App() {
 
   return (
     <div className="App">
+    <TableProvider>
       <CartProvider>
         {showCart && <Cart onClose={hideCartHandler}></Cart>}
-
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
             <Route path={paths.CREATAVOLO} element={<CreaTavolo></CreaTavolo>} />
@@ -32,6 +33,7 @@ function App() {
             <Route path={paths.CONDIVIDICODICE} element={<CondivisioneCodice></CondivisioneCodice>}></Route>
         </Routes>
       </CartProvider>
+    </TableProvider>
     </div>
   );
 }

@@ -6,8 +6,8 @@ type Action =
   | { type: "ADD"; item: IItem }
   | { type: "REMOVE"; itemID: number }
   | { type: "UPDATE COUNT"; item: IItem; amount: number }
-  | { type: "UPDATE ITEMS LIST"; qnt:number};
-type State = { items: IItem[]; cart: IItemCart[] };
+  // | { type: "UPDATE ITEMS LIST"; qnt:number};
+type State = {  cart: IItemCart[] };
 // type Item = {id:number,amount:number}
 type Reducer = (state: State, action: Action) => State;
 
@@ -21,7 +21,7 @@ function removeItemFromCart(cart: IItemCart[], id: number) {
   return cartCopy;
 }
 
-const defaultState: State = { items: dummy_items, cart: [] };
+const defaultState: State = { cart: [] };
 
 /**
  * @description
@@ -67,17 +67,17 @@ const reducerFunction: Reducer = (state: State, action: Action) => {
     return newState;
   }
 
-  if(action.type==="UPDATE ITEMS LIST"){
-    const quantita = action.qnt;
-    if(quantita<=0){
-      return state
-    }
-    let items:IItem[] = Array.from({length:quantita},(_,index)=>({id:index+1})) 
-    let newState:State = {cart:[],items};
-    return newState
+  // if(action.type==="UPDATE ITEMS LIST"){
+  //   const quantita = action.qnt;
+  //   if(quantita<=0){
+  //     return state
+  //   }
+  //   let items:IItem[] = Array.from({length:quantita},(_,index)=>({id:index+1})) 
+  //   let newState:State = {cart:[]};
+  //   return newState
   
 
-  }
+  // }
 
   return defaultState;
 };
@@ -96,7 +96,7 @@ export const CartProvider: React.FC = (props) => {
   };
 
   const contextValue: any = {
-    items: [],
+    // items: [],
     addItem: (item: IItem) => {},
     removeItem: (itemID: number) => {},
     updateItemCount: (item: IItem, amount: number) => {},

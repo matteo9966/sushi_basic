@@ -1,34 +1,43 @@
-import React, { useEffect, useState,useContext } from "react";
-import { CartContext } from "../../store/Cart-Context";
+import React, { useEffect,useContext } from "react";
+import { TableContext } from "../../store/Table-Context";
 import { Button } from "../../components/UI/Buttons/Button";
 import { Input } from "../../components/UI/Input";
 import styles from "./creaTavolo.module.css";
 import { useInput } from "../../custom-hooks/use-input";
 import { validators } from "../../utils/validators/validators";
 import { useHttp } from "../../custom-hooks/use-http";
-import { LoadingSpinner } from "../../components/UI/LoadingSpinner";
 import { instance as httpFetch } from "../../fetch/HttpFetch";
 import { CreateTableRequest } from "../../types/CreateTable/CreateTableRequest";
-// import { CreateTableResponse } from "../../types/CreateTable/CreateTableResponse";
 import { ITable } from "../../interfaces/ITable";
 import { IUtente } from "../../interfaces/IUtente";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/UI/Spinner";
+import { paths } from "../../globals/paths";
 export const CreaTavolo = () => {
-  const ctx = useContext(CartContext);
+  const tableCTX = useContext(TableContext);
+
+
+  const aggiornaInformazioniTavolo=(infoTavolo:{ tavolo: ITable; utente: IUtente })=>{
+    
+    if(infoTavolo.tavolo.codiceTavolo && infoTavolo.tavolo.portate){
+      tableCTX.aggiornaIDTavolo(infoTavolo.tavolo.codiceTavolo);
+      tableCTX.aggiornaNumeroPortate(infoTavolo.tavolo.portate);
+    }
+
+  }
+
   const navigator = useNavigate();
-  const [recievedData, setRecievedData] = useState({});
+  // const [recievedData, setRecievedData] = useState({});
   const { error, isLoading, sendRequest } = useHttp<
     CreateTableRequest,
     { tavolo: ITable; utente: IUtente }
   >(httpFetch.createTable);
  
   useEffect(() => {
-     if(recievedData){
-       console.log(recievedData);
-       //TODO: continua da qua passa i dati ricevuti al context e vai alla pagina con il codice tavolo;
-       //errore è nullo
-       console.log("ti porto a una pagina con ")
+     if(tableCTX.state.portate && tableCTX.state.tavoloID ){
+
+
+       navigator("/"+paths.CONDIVIDICODICE);
       }
 
      if(error){
@@ -36,7 +45,7 @@ export const CreaTavolo = () => {
        console.log(error);
      }
 
-  }, [recievedData,error]);
+  }, [tableCTX.state]);
 
   const {
     value: nomeValue,
@@ -73,25 +82,21 @@ export const CreaTavolo = () => {
     validators.isInteger()
   );
 
-  const resetInputs = () => {
-    resetCopertiInputHanler();
-    resetnumeroPiattiInputHanler();
-    resetNomeInputHanler();
-  };
+
 
   const  onClickHandler = async () => {
-    if (!nomeHasError && !numeroPiattiHasError && !copertiHasError) {
-      console.table({ nomeValue, numeroPiattiValue, copertiValue });
-      await sendRequest(
-        {
-          nome: nomeValue,
-          tavolo: { coperti: +copertiValue, portate: +numeroPiattiValue },
-        },
-        setRecievedData
-      );
-      resetInputs();
-      
+    if ( nomeHasError || numeroPiattiHasError || copertiHasError) {
+      return false
     }
+    console.table({ nomeValue, numeroPiattiValue, copertiValue });
+    await sendRequest(
+      {
+        nome: nomeValue,
+        tavolo: { coperti: +copertiValue, portate: +numeroPiattiValue },
+      },
+      aggiornaInformazioniTavolo
+    );
+    // resetInputs();
   };
 
   return (

@@ -1,14 +1,11 @@
 import React, { useState, useCallback } from "react";
 
 //questo hook fa delle richieste al backend con i dati inseriti
-export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R>) {
+export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string|null>(null);
 
-  const sendRequest = async (
-    payload:T,
-    applyData: (data:R) => void
-  ) => {
+  const sendRequest = async (payload:T,applyData: (data:R) => void) => {
     setIsLoading(true);
     setError(null);
 
@@ -16,9 +13,13 @@ export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R>) {
       console.log("richiesta:")
       console.log(payload);
       const response = await reqFunction(payload);
+      if(!response){
+        throw new Error("Errore richiesta al server")
+      }
+      
       console.log({response});
-      applyData(response);
       setIsLoading(false);
+      applyData(response);
 
     } catch (err) {
       console.log(err);
