@@ -6,7 +6,7 @@ import { ItemButton } from "../buttons/ItemButton";
 
 export const ButtonContainer = () => {
   const ctx = useContext(TableContext);
-  const numeroPortate = ctx.state.portate;
+  const numeroPortate = ctx.state.tavolo && ctx.state.tavolo.portate;
   if (!numeroPortate) {
     return <></>;
   }

@@ -1,7 +1,7 @@
 import { CartContext } from "./Cart-Context";
 import React, { useReducer } from "react";
 import { IItem, IItemCart } from "../interfaces/IItem";
-import { dummy_items } from "./DUMMY_DATA";
+
 type Action =
   | { type: "ADD"; item: IItem }
   | { type: "REMOVE"; itemID: number }
@@ -35,7 +35,7 @@ const reducerFunction: Reducer = (state: State, action: Action) => {
     let cart = [...state.cart];
     const item = cart.find((item) => item.id === action.item.id);
     if (!item) {
-      cart.push({id:action.item.id,amount:1});
+      cart.push({id:action.item.id,qnt:1});
     } else {
       cart = state.cart.filter((item) => item.id !== action.item.id);
     }
@@ -54,11 +54,11 @@ const reducerFunction: Reducer = (state: State, action: Action) => {
       return state;
     }
     const updatedItem = { ...item };
-    updatedItem.amount = updatedItem.amount + action.amount;
+    updatedItem.qnt = updatedItem.qnt + action.amount;
     let newState;
     const filteredCart = removeItemFromCart(state.cart, action.item.id); // rimuovo l'elemento con il count <0
     newState = { ...state, cart: filteredCart };
-    if (updatedItem.amount <= 0) {
+    if (updatedItem.qnt <= 0) {
       //se updatedItem non ha un contatore > 0 non lo aggiungo nuovamente
       return newState;
     }

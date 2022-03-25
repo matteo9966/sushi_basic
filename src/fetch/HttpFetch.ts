@@ -1,13 +1,9 @@
-import { CreateTableRequest } from "../types/CreateTable/CreateTableRequest";
-import { CreateTableResponse } from "../types/CreateTable/CreateTableResponse";
 import { makeFetchConfig } from "../utils/makeFetchConfig";
-class HttpFetch {
+export class HttpFetch {
   private static instance: HttpFetch;
   private baseurl = "http://localhost:4444/api/v1";
   private constructor() {
-    this.createTable= this.createTable.bind(this)
-    this.post= this.post.bind(this)
-   
+    this.post = this.post.bind(this);
   }
 
   public static getInstance() {
@@ -17,49 +13,11 @@ class HttpFetch {
     return this.instance;
   }
 
-  //inizializzo la richiesta del fetch e restituisco il metodo che fa la richiesta con quegli header e quel body
 
-  //createTable
-  /* 
-  POST	/createTable	crea un nuovo tavolo
-POST	/newUser	aggiungi un nuovo utente al tavolo
-POST	/newOrder	utente crea un nuovo ordine
-GET	/complete/:id	visualizza ordine completo del tavolo
-GET	/thisTable/:id	visualizza tavolo
-DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
-  
-  */
-
-  //la gestione dell'errore avviene tutta dentro il body, il json viene già convertito se l'esito va a buon fine
-  async createTable(body: CreateTableRequest){
-  
-      
-         const response =  await this.post<CreateTableRequest,CreateTableResponse>('/createTable',body);
-
-         if(!response){
-           return
-         }
-
-         if(response.errorCode!==null){
-             throw new Error(response.errorDescription);
-         }
-
-         return response.payload ;
-
- 
-
-
-  }
-
-  newUser(body: any) {}
-  newOrder(body: any) {}
-  getCompletOrder() {}
-  thisTable() {}
-  deleteAllOrders() {}
-
-  //tutte richieste con un json in pancia
- private async post<RequestBody, ResponseBody>(endpoint: string, body: RequestBody) {
-
+   async post<RequestBody, ResponseBody>(
+    endpoint: string,
+    body: RequestBody
+  ) {
     const jsonBody = JSON.stringify(body);
     const headers: Headers = new Headers();
     const url = this.baseurl + endpoint;
@@ -71,12 +29,12 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
       body: jsonBody,
     };
     const requestConfig = makeFetchConfig(url, init);
- 
-    try {
 
+    try {
       const response = await fetch(requestConfig);
-      if(!response.ok){
-        throw new Error("Errore richiesta, "+response.status)
+
+      if (!response.ok) {
+        throw new Error("Errore richiesta, " + response.status);
       }
       const responseHeaders = response.headers;
       const contentType = responseHeaders.get("content-type");
@@ -84,16 +42,15 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
         throw new TypeError("non ho ricevuto i dati nel formato corretto :(");
       }
       const data = (await response.json()) as ResponseBody;
-      return data;
       
+      console.log({data});
+      return data;
     } catch (error) {
-
-      if(error instanceof TypeError){
-        console.error(error)
+      if (error instanceof TypeError) {
+        console.error(error);
       }
       return;
     }
-
   }
 }
 

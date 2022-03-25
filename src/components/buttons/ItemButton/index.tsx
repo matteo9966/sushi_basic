@@ -7,10 +7,13 @@ export const ItemButton:React.FC<{id:number}>= ({id}) => {
    const cartItems = ctx.state.cart;
    
    useEffect(()=>{
-    //se id non è in carrello rimuovo 
+    
     const item = cartItems.find(item=>item.id===id);
     if(!item){
       setSelected(false)
+    }
+    if(item){
+      setSelected(true)
     }
 
    },[cartItems,id])

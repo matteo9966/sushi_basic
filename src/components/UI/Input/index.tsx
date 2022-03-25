@@ -17,7 +17,7 @@ export const Input: React.FC<{
 }> = ({ type, name, id, placeholder, label, value,onChange,onBlur,onFocus,hasError }) => {
  
   const inputstyle = (!hasError) ? styles.input : `${styles.input} ${styles.errorBorder}`
-  const placeHolderWError = (!hasError)? placeholder  : `${name} non valido...`;
+  const placeHolderWError = (!hasError)? placeholder  : `${name} non valido`;
   return (
     <div className={styles["input-container"]}>
       <label htmlFor={name}>{label}</label>

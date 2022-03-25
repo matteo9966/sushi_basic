@@ -6,13 +6,13 @@ import styles from "./creaTavolo.module.css";
 import { useInput } from "../../custom-hooks/use-input";
 import { validators } from "../../utils/validators/validators";
 import { useHttp } from "../../custom-hooks/use-http";
-import { instance as httpFetch } from "../../fetch/HttpFetch";
 import { CreateTableRequest } from "../../types/CreateTable/CreateTableRequest";
 import { ITable } from "../../interfaces/ITable";
 import { IUtente } from "../../interfaces/IUtente";
 import {  useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/UI/Spinner";
 import { paths } from "../../globals/paths";
+import { HttpOrdini } from "../../fetch/HttpOrdini";
 export const CreaTavolo = () => {
   const tableCTX = useContext(TableContext);
 
@@ -20,8 +20,11 @@ export const CreaTavolo = () => {
   const aggiornaInformazioniTavolo=(infoTavolo:{ tavolo: ITable; utente: IUtente })=>{
     
     if(infoTavolo.tavolo.codiceTavolo && infoTavolo.tavolo.portate){
-      tableCTX.aggiornaIDTavolo(infoTavolo.tavolo.codiceTavolo);
-      tableCTX.aggiornaNumeroPortate(infoTavolo.tavolo.portate);
+      tableCTX.aggiornaInfoTavolo(infoTavolo.tavolo)
+      tableCTX.aggiornaInfoUtente(infoTavolo.utente)
+
+      // tableCTX.aggiornaIDTavolo(infoTavolo.tavolo.codiceTavolo);
+      // tableCTX.aggiornaNumeroPortate(infoTavolo.tavolo.portate);
     }
 
   }
@@ -31,17 +34,15 @@ export const CreaTavolo = () => {
   const { error, isLoading, sendRequest } = useHttp<
     CreateTableRequest,
     { tavolo: ITable; utente: IUtente }
-  >(httpFetch.createTable);
+  >(HttpOrdini.createTable);
  
   useEffect(() => {
-     if(tableCTX.state.portate && tableCTX.state.tavoloID ){
-
-
+  
+     if(tableCTX.state && tableCTX.state.tavolo && tableCTX.state.tavolo.portate && tableCTX.state.tavolo.codiceTavolo ){
        navigator("/"+paths.CONDIVIDICODICE);
       }
 
      if(error){
-       //non fare nulla
        console.log(error);
      }
 

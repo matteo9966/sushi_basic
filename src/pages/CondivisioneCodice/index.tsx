@@ -9,7 +9,7 @@ export const CondivisioneCodice = () => {
   const navigator = useNavigate();
   const tableCTX = useContext(TableContext);
   const onClick =()=>{
-     if(tableCTX.state.portate && tableCTX.state.tavoloID){
+     if(tableCTX.state.tavolo && tableCTX.state.tavolo.portate){
        navigator('/'+paths.MENU);
      }
   }
@@ -19,7 +19,7 @@ export const CondivisioneCodice = () => {
 
       <div className={styles["area-codice"]} >
         <h2>Codice tavolo</h2>
-        <span className={styles["codice-wrapper"]}>{tableCTX.state.tavoloID}</span>
+        <span className={styles["codice-wrapper"]}>{tableCTX.state.tavolo && tableCTX.state.tavolo.codiceTavolo}</span>
         <Button onClick={onClick}>Vai al menu</Button>
       </div>
     </div>

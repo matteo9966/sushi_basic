@@ -10,14 +10,12 @@ export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
     setError(null);
 
     try {
-      console.log("richiesta:")
-      console.log(payload);
+
       const response = await reqFunction(payload);
       if(!response){
         throw new Error("Errore richiesta al server")
       }
-      
-      console.log({response});
+     
       setIsLoading(false);
       applyData(response);
 

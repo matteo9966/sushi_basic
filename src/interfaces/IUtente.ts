@@ -1,7 +1,8 @@
-import { IOrdinazione } from "./IOrdinazione";
+import { IItemCart } from "./IItem";
+// import { IItem } from "./IOrdinazione";
 
 export interface IUtente {
-    id:string,
-    nome:string,
-    ordinazione:IOrdinazione[];
+    id?:string,
+    nome?:string,
+    ordinazione?:IItemCart[];
 }

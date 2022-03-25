@@ -5,5 +5,5 @@ export interface IItem {
 
 export interface IItemCart{ 
   id:number;
-  amount:number;
+  qnt:number;
 }
