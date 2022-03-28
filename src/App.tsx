@@ -10,6 +10,7 @@ import { Aggiungiti } from "./pages/Aggiungiti";
 import { Home } from "./pages/Home";
 import { Menu } from "./pages/Menu";
 import {CondivisioneCodice} from './pages/CondivisioneCodice'
+import { Layout } from "./components/UI/Layout";
 function App() {
   const [showCart, setShowCart] = useState(false);
 
@@ -29,8 +30,11 @@ function App() {
           <Route path="/" element={<Home></Home>}></Route>
             <Route path={paths.CREATAVOLO} element={<CreaTavolo></CreaTavolo>} />
             <Route path={paths.AGGIUNGITI} element={<Aggiungiti></Aggiungiti>} />
-            <Route path={paths.MENU} element={<Menu onOpenCart={showCartHandler}></Menu>}></Route>
-            <Route path={paths.CONDIVIDICODICE} element={<CondivisioneCodice></CondivisioneCodice>}></Route>
+            <Route path={paths.HOME} element={<Layout></Layout>}>
+              <Route index element={<Menu onOpenCart={showCartHandler}></Menu>}></Route>
+              <Route path={paths.MENU} element={<Menu onOpenCart={showCartHandler}></Menu>}></Route>
+              <Route path={paths.CONDIVIDICODICE} element={<CondivisioneCodice></CondivisioneCodice>}></Route>
+            </Route>
         </Routes>
       </CartProvider>
     </TableProvider>

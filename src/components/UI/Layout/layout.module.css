@@ -1,0 +1,21 @@
+.layout{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.header-style{
+    height: 10vh;
+    width: 100vw;
+} 
+.main-style{
+    height:80vh;
+    width: 100vw;
+}
+
+.footer-style{
+    padding-top: 2vh;
+    height:10vh;
+    width: 100vw;
+}

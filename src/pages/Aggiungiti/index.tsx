@@ -43,7 +43,7 @@ export const Aggiungiti = () => {
 
   if(tableCTX.state.utente && tableCTX.state.utente.id ){
 
-    navigator('/'+paths.MENU)
+    navigator('/'+paths.HOME)
     //tutto è andato bene posso andare alla pagina degli ordini
   }
   

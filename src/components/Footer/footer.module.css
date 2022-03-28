@@ -1,0 +1,16 @@
+.footer-wrapper{
+    height:10vh;
+    width: 100vw;
+}
+.footer-container{
+    margin: auto;
+    position:relative;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+.footer-item{
+    display: block;
+    max-width: 20vw;
+}

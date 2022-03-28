@@ -10,7 +10,7 @@ export const Navbar:FC<{onOpenCart:()=>void}> = (props) => {
 
   return (
     <div className={styles["navbar-container"]}>
-      <LogoHeader></LogoHeader>
+      {/* <LogoHeader></LogoHeader> */}
 
       <div className={styles["cart-button-area"]}>
         <button onClick={props.onOpenCart}>

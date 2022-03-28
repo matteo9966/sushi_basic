@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     
-    
+    height: 10vh;
     width: 100%;
     z-index: 1;
     background: rgba(255, 255, 255, 0.2);
@@ -43,7 +43,6 @@
     align-content: center; 
     width: 40%;
     margin: auto;
-    margin-top:1vh;
 }
 
 .navbar-container button {
@@ -52,7 +51,6 @@
     text-align: center;
     border-radius: 1rem;
     font-size: 3vh;
-    margin-bottom: 2vh;
     font-family: inherit;
 }
 

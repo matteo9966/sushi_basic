@@ -7,4 +7,7 @@
 }
 .spinner-gif{
     opacity: 0.8;
+    max-width: 50vw;
+    max-width: 50vh;
+    margin: auto;
 }

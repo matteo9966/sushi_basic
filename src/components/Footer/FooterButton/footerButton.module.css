@@ -1,0 +1,27 @@
+.button-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.titolo{
+    /* filter: blur(8px);    */
+    background:rgba(0, 0, 0, 0.082);
+    margin: 0;
+    border-radius: 5px;
+    
+}
+
+.titolo p {
+    margin: 0;
+}
+
+.logo{
+    height: 6vh;
+    width: 6vh;
+    max-height: 6vh;
+    max-width: 6vh;
+
+}

@@ -13,6 +13,7 @@ import {  useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/UI/Spinner";
 import { paths } from "../../globals/paths";
 import { HttpOrdini } from "../../fetch/HttpOrdini";
+import path from "node:path/win32";
 export const CreaTavolo = () => {
   const tableCTX = useContext(TableContext);
 
@@ -39,7 +40,7 @@ export const CreaTavolo = () => {
   useEffect(() => {
   
      if(tableCTX.state && tableCTX.state.tavolo && tableCTX.state.tavolo.portate && tableCTX.state.tavolo.codiceTavolo ){
-       navigator("/"+paths.CONDIVIDICODICE);
+       navigator("/"+paths.HOME+'/'+paths.CONDIVIDICODICE);
       }
 
      if(error){

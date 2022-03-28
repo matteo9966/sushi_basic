@@ -2,5 +2,6 @@ export const paths   = {
      CREATAVOLO:'crea-tavolo',
      AGGIUNGITI:'aggiungiti',
      MENU:'menu',
-     CONDIVIDICODICE:'condividi-codice'
+     CONDIVIDICODICE:'condividi-codice',
+     HOME:'home'
 }
