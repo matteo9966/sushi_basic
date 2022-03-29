@@ -1,0 +1,11 @@
+.utenti{
+    width: 80vw;
+    max-width: 60vw;
+    height: 60vh;
+    overflow-y: scroll;
+    margin:auto;
+    padding: 0 3vw;
+}
+.titolo{
+    text-align: center;
+}

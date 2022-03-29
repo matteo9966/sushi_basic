@@ -15,7 +15,7 @@
 }
 
 .footer-style{
-    padding-top: 2vh;
     height:10vh;
     width: 100vw;
+    max-height: 10vh;
 }

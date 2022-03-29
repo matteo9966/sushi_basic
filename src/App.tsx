@@ -11,6 +11,7 @@ import { Home } from "./pages/Home";
 import { Menu } from "./pages/Menu";
 import {CondivisioneCodice} from './pages/CondivisioneCodice'
 import { Layout } from "./components/UI/Layout";
+import { Ordini } from "./pages/Ordini";
 function App() {
   const [showCart, setShowCart] = useState(false);
 
@@ -34,6 +35,8 @@ function App() {
               <Route index element={<Menu onOpenCart={showCartHandler}></Menu>}></Route>
               <Route path={paths.MENU} element={<Menu onOpenCart={showCartHandler}></Menu>}></Route>
               <Route path={paths.CONDIVIDICODICE} element={<CondivisioneCodice></CondivisioneCodice>}></Route>
+              <Route path={paths.ORDINI} element={<Ordini></Ordini>}></Route>
+              
             </Route>
         </Routes>
       </CartProvider>

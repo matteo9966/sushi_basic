@@ -3,5 +3,6 @@ export const paths   = {
      AGGIUNGITI:'aggiungiti',
      MENU:'menu',
      CONDIVIDICODICE:'condividi-codice',
-     HOME:'home'
+     HOME:'home',
+     ORDINI:'ordini-tavolo',
 }
