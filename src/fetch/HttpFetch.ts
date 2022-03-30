@@ -13,11 +13,33 @@ export class HttpFetch {
     return this.instance;
   }
 
+  async get<ResponseBody>(endpoint: string) {
+    const url = this.baseurl + endpoint;
 
-   async post<RequestBody, ResponseBody>(
-    endpoint: string,
-    body: RequestBody
-  ) {
+    const myRequest = new Request(url, {
+      method: "GET",
+    });
+    try {
+      const response = await fetch(myRequest);
+      if (!response.ok) {
+        throw new Error("Errore richiesta, " + response.status);
+      }
+      const responseHeaders = response.headers;
+      const contentType = responseHeaders.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new TypeError("non ho ricevuto i dati nel formato corretto :(");
+      }
+      const data = (await response.json()) as ResponseBody;
+
+      console.log({ data });
+      return data;
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  }
+
+  async post<RequestBody, ResponseBody>(endpoint: string, body: RequestBody) {
     const jsonBody = JSON.stringify(body);
     const headers: Headers = new Headers();
     const url = this.baseurl + endpoint;
@@ -42,8 +64,8 @@ export class HttpFetch {
         throw new TypeError("non ho ricevuto i dati nel formato corretto :(");
       }
       const data = (await response.json()) as ResponseBody;
-      
-      console.log({data});
+
+      console.log({ data });
       return data;
     } catch (error) {
       if (error instanceof TypeError) {

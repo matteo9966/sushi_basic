@@ -5,6 +5,7 @@ import { AddUserRequert } from "../types/AddUser/AddUserRequest";
 import { addUserResponse } from "../types/AddUser/AddUserResponse";
 import { OrderRequest } from "../types/CreateOrder/OrderRequest";
 import { OrderResponse } from "../types/CreateOrder/OrderResponse";
+import { OrdineCompletoResponse } from "../types/OrdineCompleto/OrdineCompletoResponse";
 export class HttpOrdini {
 
       /* 
@@ -50,7 +51,15 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
     if(response.errorCode != null){ throw new Error(response.errorDescription)}
     return response.payload;
   }
-  static async getCompletOrder() {}
+  static async getCompletOrder(idTavolo:string) {
+    const response = await HttpFetch.getInstance().get<OrdineCompletoResponse>('/complete/'+idTavolo);
+    console.log({response});
+    if(!response) return ;
+    console.log({errorCode: response.errorCode})
+    if(response.errorCode != null){ throw new Error(response.errorDescription)}
+    return response.payload;
+  
+  }
   static async thisTable() {}
   static async deleteAllOrders() {}
 }

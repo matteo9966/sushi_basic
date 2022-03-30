@@ -1,11 +1,25 @@
+.ordini-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
 .utenti{
     width: 80vw;
     max-width: 60vw;
-    height: 60vh;
+    height: 35vh;
     overflow-y: scroll;
     margin:auto;
+    margin-top: 0;
     padding: 0 3vw;
 }
 .titolo{
     text-align: center;
 }
+
+.ordinazione-btn-wrapper{
+    display: flex;
+    padding: 0 15vw;
+
+}
+
