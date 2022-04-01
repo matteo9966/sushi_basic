@@ -1,10 +1,10 @@
-import { IItem } from "../../interfaces/IItem";
+import { IItemCart } from "../../interfaces/IItem";
 import { ITable } from "../../interfaces/ITable";
 
 export type OrdineCompletoResponse = {
   payload: {
     tavolo: ITable;
-    ordine: IItem[];
+    ordine: IItemCart[];
   };
   errorCode: number;
   errorDescription: string;

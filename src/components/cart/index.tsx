@@ -1,7 +1,6 @@
-import React, { useContext,useEffect } from "react";
+import React, { useContext,useEffect,useState } from "react";
 import styles from "./cart.module.css";
 import { Modal } from "../UI/Modal";
-import { CartContext } from "../../store/Cart-Context";
 import { CartItem } from "./cart-item";
 import { Button } from "../UI/Buttons/Button";
 import { TableContext } from "../../store/Table-Context";
@@ -10,24 +9,37 @@ import { OrderRequest } from "../../types/CreateOrder/OrderRequest";
 import { HttpOrdini } from "../../fetch/HttpOrdini";
 import { ITable } from "../../interfaces/ITable";
 import { Spinner } from "../UI/Spinner";
+import { IItemCart } from "../../interfaces/IItem";
+import { Dialog } from "../Dialog";
 
-export const Cart: React.FC<{ onClose: () => void }> = (props) => {
-  const ctx = useContext(CartContext);
-  const sortedCart = ctx.state.cart.sort((itemA, itemB) => itemA.id - itemB.id);
+export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCart[] }> = (props) => {
+  const [showDialog,setShowDialog]= useState(false)
+  const sortedCart = props.cart.sort((itemA, itemB) => itemA.id - itemB.id);
   const TableCTX = useContext(TableContext);
-  const { error, isLoading, sendRequest } = useHttp<OrderRequest,ITable>(HttpOrdini.newOrder);
+  const { error, isLoading, sendRequest,success } = useHttp<OrderRequest,ITable>(HttpOrdini.newOrder);
 
   useEffect(()=>{
-    if(TableCTX.state.tavolo && TableCTX.state.tavolo.utenti){
+    if(error){
       console.log(TableCTX.state.tavolo);
     }
-  },[error,TableCTX.state])
+  },[error])
+
+  useEffect(()=>{
+    let timeoutID:NodeJS.Timeout;
+    if(success){
+      setShowDialog(true)
+      timeoutID= setTimeout(()=>{
+       setShowDialog(false)
+      },3000)
+    }
+
+  },[success])
 
 
 
 
   const submitOrder = async ()=>{
-     const ordini = ctx.state.cart;
+     const ordini = props.cart;
      if(ordini.length<=0){
        return
      }
@@ -45,17 +57,20 @@ export const Cart: React.FC<{ onClose: () => void }> = (props) => {
   }
   return (
     <Modal onClose={props.onClose}>
-      {isLoading && <Spinner></Spinner>} {/* é da vedere che succede... */}
+      {isLoading && <Spinner></Spinner>} 
+      {success && showDialog && <Dialog success={success} message="Ordinazione effettuata con successo" showDialog={success}></Dialog>}
+      {!!error && showDialog && <Dialog success={false} message={error} showDialog={!!error}></Dialog>}
       <div className={styles["cart-wrapper"]}>
         <i onClick={props.onClose}>&#10006;</i>
         <h5>Ordinazioni</h5>
+          {error}
         <ul>
           {sortedCart.map((item) => {
-            return <CartItem item={item} key={item.id}></CartItem>;
+            return <CartItem item={item} key={item.id} editable={props.editable}></CartItem>;
           })}
         </ul>
         <div className={styles['button-area']}>
-          {ctx.state.cart.length>0 && <Button onClick={submitOrder}>Ordina</Button>}
+          {props.cart.length>0 && props.editable && <Button onClick={submitOrder}>Ordina</Button>}
           
         </div>
       </div>

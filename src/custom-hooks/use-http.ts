@@ -4,11 +4,12 @@ import React, { useState, useCallback } from "react";
 export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string|null>(null);
-
+  const [success,setSuccess]=useState(false);
   const sendRequest = async (payload:T,applyData: (data:R) => void) => {
     setIsLoading(true);
     setError(null);
-
+    setSuccess(false);
+    
     try {
 
       const response = await reqFunction(payload);
@@ -18,10 +19,12 @@ export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
      
       setIsLoading(false);
       applyData(response);
+      setSuccess(true);
 
     } catch (err) {
       console.log(err);
       setIsLoading(false);
+      setSuccess(false);
       if(err instanceof Error){
         setError(err.message );
       }
@@ -31,5 +34,5 @@ export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
     }
   };
   const sendHttpRequest = useCallback(sendRequest, []);
-  return {error, isLoading, sendRequest:sendHttpRequest};
+  return {error, isLoading, sendRequest:sendHttpRequest,success};
 };
