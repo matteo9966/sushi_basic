@@ -95,6 +95,7 @@ export const Ordini: React.FC<{ onOpenCart: () => void }> = (props) => {
             await sendRequest(tableCTX.state.tavolo?.codiceTavolo, setOrdine);
       
           }}>Aggiorna</Button>
+        <Button>Ordina di nuovo</Button>
       </div>
     </div>
   );

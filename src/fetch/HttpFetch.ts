@@ -74,14 +74,39 @@ export class HttpFetch {
       return;
     }
   }
-   
-  async delete<RequestBody,ResponseBody>(endpoint:string,body?:RequestBody){
-    if(body){
-      //implementare il delete
-      
+
+  async delete<ResponseBody,RequestBody=void>(
+    endpoint: string,
+    body?: RequestBody
+  ) {
+    const url = this.baseurl + endpoint;
+    let init: RequestInit = {
+      method: "DELETE",
+    };
+    if (body) {
+      const headers: Headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      const jsonBody = JSON.stringify(body);
+      init.body = jsonBody;
+      init.headers = headers;
+    }
+    const requestConfig = makeFetchConfig(url, init);
+    try {
+      const response = await fetch(requestConfig);
+      if (!response.ok) {
+        throw new Error("Errore richiesta, " + response.status);
+      }
+      const responseHeaders = response.headers;
+      const contentType = responseHeaders.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new TypeError("non ho ricevuto i dati nel formato corretto :(");
+      }
+      const data = (await response.json()) as ResponseBody;
+      return data;
+    } catch (error) {
+      console.error(error);
     }
   }
-
 }
 
 export const instance = HttpFetch.getInstance();
