@@ -12,7 +12,7 @@ import { Spinner } from "../UI/Spinner";
 import { IItemCart } from "../../interfaces/IItem";
 import { Dialog } from "../Dialog";
 
-export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCart[] }> = (props) => {
+export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCart[],setEditable?:(editable:boolean)=>void }> = (props) => {
   const [showDialog,setShowDialog]= useState(false)
   const sortedCart = props.cart.sort((itemA, itemB) => itemA.id - itemB.id);
   const TableCTX = useContext(TableContext);
@@ -22,17 +22,22 @@ export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCar
     if(error){
       console.log(TableCTX.state.tavolo);
     }
-  },[error])
+  },[error,TableCTX.state])
 
   useEffect(()=>{
     let timeoutID:NodeJS.Timeout;
+    console.log("sto eseguendo sideeffect!");
     if(success){
       setShowDialog(true)
+      if(props.setEditable){
+        props.setEditable(false);
+      }
+      //imposta come non editable!
       timeoutID= setTimeout(()=>{
        setShowDialog(false)
       },3000)
     }
-
+    return ()=>clearTimeout(timeoutID);
   },[success])
 
 

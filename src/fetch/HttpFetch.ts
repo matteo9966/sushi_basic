@@ -74,6 +74,14 @@ export class HttpFetch {
       return;
     }
   }
+   
+  async delete<RequestBody,ResponseBody>(endpoint:string,body?:RequestBody){
+    if(body){
+      //implementare il delete
+      
+    }
+  }
+
 }
 
 export const instance = HttpFetch.getInstance();

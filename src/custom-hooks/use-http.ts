@@ -18,8 +18,8 @@ export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
       }
      
       setIsLoading(false);
-      applyData(response);
       setSuccess(true);
+      applyData(response);
 
     } catch (err) {
       console.log(err);
@@ -33,6 +33,6 @@ export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
       }
     }
   };
-  const sendHttpRequest = useCallback(sendRequest, []);
+  const sendHttpRequest = useCallback(sendRequest, [reqFunction]);
   return {error, isLoading, sendRequest:sendHttpRequest,success};
 };

@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { TableContext } from "../../store/Table-Context";
 import { Button } from "../../components/UI/Buttons/Button";
 import { Input } from "../../components/UI/Input";
@@ -13,48 +13,45 @@ import {  useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/UI/Spinner";
 import { paths } from "../../globals/paths";
 import { HttpOrdini } from "../../fetch/HttpOrdini";
-import path from "node:path/win32";
 export const CreaTavolo = () => {
   const tableCTX = useContext(TableContext);
-
-
+  const navigator = useNavigate();
+  
   const aggiornaInformazioniTavolo=(infoTavolo:{ tavolo: ITable; utente: IUtente })=>{
-    
+    console.log("eseguo aggiorna informazioni tavolo")
     if(infoTavolo.tavolo.codiceTavolo && infoTavolo.tavolo.portate){
       tableCTX.aggiornaInfoTavolo(infoTavolo.tavolo)
       tableCTX.aggiornaInfoUtente(infoTavolo.utente)
+    
+    }
+    
+  }
+  
+  
 
-      // tableCTX.aggiornaIDTavolo(infoTavolo.tavolo.codiceTavolo);
-      // tableCTX.aggiornaNumeroPortate(infoTavolo.tavolo.portate);
+  const { error, isLoading, sendRequest } = useHttp<
+  CreateTableRequest,
+  { tavolo: ITable; utente: IUtente }
+  >(HttpOrdini.createTable);
+  
+  useEffect(()=>{
+    if(tableCTX.state && tableCTX.state.tavolo && tableCTX.state.tavolo.portate && tableCTX.state.tavolo.codiceTavolo ){
+      console.log("eseguo aggiornamento stato")
+      navigator("/"+paths.HOME+'/'+paths.CONDIVIDICODICE);
+     }
+     
+    if(error){
+      console.log(error);
     }
 
-  }
-
-  const navigator = useNavigate();
-  // const [recievedData, setRecievedData] = useState({});
-  const { error, isLoading, sendRequest } = useHttp<
-    CreateTableRequest,
-    { tavolo: ITable; utente: IUtente }
-  >(HttpOrdini.createTable);
- 
-  useEffect(() => {
+  },[tableCTX.state,error,navigator])
   
-     if(tableCTX.state && tableCTX.state.tavolo && tableCTX.state.tavolo.portate && tableCTX.state.tavolo.codiceTavolo ){
-       navigator("/"+paths.HOME+'/'+paths.CONDIVIDICODICE);
-      }
-
-     if(error){
-       console.log(error);
-     }
-
-  }, [tableCTX.state]);
-
   const {
     value: nomeValue,
     hasError: nomeHasError,
     changeValueHandler: changeNomeValueHandler,
     blurInputHandler: blurNomeInputHandler,
-    resetInputHanler: resetNomeInputHanler,
+   
     focusInputHandler: focusNomeHandler,
   } = useInput(validators.minLength(2), validators.maxLength(20));
 
@@ -63,7 +60,7 @@ export const CreaTavolo = () => {
     hasError: copertiHasError,
     changeValueHandler: changeCopertiValueHandler,
     blurInputHandler: blurCopertiInputHandler,
-    resetInputHanler: resetCopertiInputHanler,
+    
     focusInputHandler: focusCopertiHandler,
   } = useInput(
     validators.minLength(1),
@@ -76,7 +73,7 @@ export const CreaTavolo = () => {
     hasError: numeroPiattiHasError,
     changeValueHandler: changeNumeroPiattiValueHandler,
     blurInputHandler: blurNumeroPiattiInputHandler,
-    resetInputHanler: resetnumeroPiattiInputHanler,
+   
     focusInputHandler: focusNumeroPiattiHandler,
   } = useInput(
     validators.minLength(1),
@@ -98,7 +95,9 @@ export const CreaTavolo = () => {
       },
       aggiornaInformazioniTavolo
     );
-    // resetInputs();
+
+
+    
   };
 
   return (

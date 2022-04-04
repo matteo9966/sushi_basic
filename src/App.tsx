@@ -13,7 +13,7 @@ import { Layout } from "./components/UI/Layout";
 import { Ordini } from "./pages/Ordini";
 function App() {
   const [showCart, setShowCart] = useState(false);
-  const [cartEditable, setCartEditable] = useState(false);
+  const [cartEditable, setCartEditable] = useState(true);
   const cartCTX = useContext(CartContext);
   const showCartHandler = (setEditable: boolean) => {
     return () => {
@@ -29,7 +29,7 @@ function App() {
     <div className="App">
     
           {showCart && (
-            <Cart onClose={hideCartHandler} editable={cartEditable} cart={cartCTX.state.cart}></Cart>
+            <Cart onClose={hideCartHandler} editable={cartEditable} cart={cartCTX.state.cart} setEditable={setCartEditable}></Cart>
           )}
           <Routes>
             <Route path="/" element={<Home></Home>}></Route>
@@ -42,14 +42,17 @@ function App() {
               element={<Aggiungiti></Aggiungiti>}
             />
             <Route path={paths.HOME} element={<Layout></Layout>}>
+             
               <Route
                 index
-                element={<Menu onOpenCart={showCartHandler(true)}></Menu>}
+                element={<Menu onOpenCart={showCartHandler(cartEditable)}></Menu>}
               ></Route>
+
               <Route
                 path={paths.MENU}
-                element={<Menu onOpenCart={showCartHandler(true)}></Menu>}
+                element={<Menu onOpenCart={showCartHandler(cartEditable)}></Menu>}
               ></Route>
+
               <Route
                 path={paths.CONDIVIDICODICE}
                 element={<CondivisioneCodice></CondivisioneCodice>}

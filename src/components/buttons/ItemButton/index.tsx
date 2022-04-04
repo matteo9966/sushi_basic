@@ -21,7 +21,7 @@ export const ItemButton:React.FC<{id:number}>= ({id}) => {
    const buttonStyle = selected ? `${styles.button} ${styles.selected}` : styles.button
 
   const onClickHandler=(event:React.MouseEvent<HTMLElement>)=>{
-    
+    //se è editabile allora posso cliccarci sopra altrimenti i  bottoni sono bloccati e nn fa nulla
     if(selected){
       setSelected(false)
     }

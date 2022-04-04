@@ -62,6 +62,11 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
   }
   static async thisTable() {}
   static async deleteAllOrders() {}
+  static async deleteUserOrder(){
+    //{{URL}}/clearSingleOrder/PB8GK/Y1Z591
+    // const re
+
+  }
 }
 
 // export const httpOrdini = new HttpOrdini();
