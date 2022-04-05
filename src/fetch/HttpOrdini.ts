@@ -63,13 +63,13 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
   static async thisTable() {}
   static async deleteAllOrders() {}
 
-  static async deleteUserOrder(idTavolo:string,idUtente:string){
-    if(!idTavolo || !idUtente){
-      console.log({idTavolo,idUtente})
+  static async deleteUserOrder(params:{idTavolo:string,idUtente:string}){
+    if(!params.idTavolo || !params.idUtente){
+      console.log({idTavolo:params.idTavolo,idUtente:params.idUtente})
       throw new Error('ID tavolo o ID utente assente');
     }
     // const endpoint = '/clearSingleOrder/PB8GK/Y1Z591'
-    const endpoint = `/clearSingleOrder/${idTavolo}/${idUtente}`;
+    const endpoint = `/clearSingleOrder/${params.idTavolo}/${params.idUtente}`;
     const response = await HttpFetch.getInstance().delete<OrdineCompletoResponse>(endpoint);
     console.log({response});
     if(!response)return

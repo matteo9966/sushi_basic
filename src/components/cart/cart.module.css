@@ -4,6 +4,7 @@
     flex-direction: column;
     overflow-y: hidden;
     font-family: 'Reggae One';
+    overflow: hidden;
 
 }
 
@@ -23,6 +24,7 @@
 .button-area{
     position: fixed;
     bottom: 0;
+    left: 0;
     margin: auto;
-    width: 100%;
+    min-width: 100%;
 }

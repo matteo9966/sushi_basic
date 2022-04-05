@@ -19,6 +19,9 @@ export function useHttp<T,R>(reqFunction:(req:T)=>Promise<R|undefined>) {
      
       setIsLoading(false);
       setSuccess(true);
+      
+      
+
       applyData(response);
 
     } catch (err) {

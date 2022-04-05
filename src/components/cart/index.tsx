@@ -11,8 +11,9 @@ import { ITable } from "../../interfaces/ITable";
 import { Spinner } from "../UI/Spinner";
 import { IItemCart } from "../../interfaces/IItem";
 import { Dialog } from "../Dialog";
+import { Strip } from "../UI/StripParagrafo";
 
-export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCart[],setEditable?:(editable:boolean)=>void }> = (props) => {
+export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCart[],setEditable?:(editable:boolean)=>void, ordineEffettuato:boolean,setOrdineEffettuato?:(ordinato:boolean)=>void}> = (props) => {
   const [showDialog,setShowDialog]= useState(false)
   const sortedCart = props.cart.sort((itemA, itemB) => itemA.id - itemB.id);
   const TableCTX = useContext(TableContext);
@@ -29,6 +30,7 @@ export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCar
     console.log("sto eseguendo sideeffect!");
     if(success){
       setShowDialog(true)
+      props.setOrdineEffettuato && props.setOrdineEffettuato(true);
       if(props.setEditable){
         props.setEditable(false);
       }
@@ -75,7 +77,9 @@ export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCar
           })}
         </ul>
         <div className={styles['button-area']}>
-          {props.cart.length>0 && props.editable && <Button onClick={submitOrder}>Ordina</Button>}
+          { props.cart.length>0 && props.editable && <Button onClick={submitOrder}>Ordina</Button>}
+          {!props.editable && props.ordineEffettuato && <Strip>Dal menu Ordini, clicca su "Ordina di nuovo" per creare un nuovo ordine</Strip> }
+         
           
         </div>
       </div>

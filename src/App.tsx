@@ -14,6 +14,7 @@ import { Ordini } from "./pages/Ordini";
 function App() {
   const [showCart, setShowCart] = useState(false);
   const [cartEditable, setCartEditable] = useState(true);
+  const [ordineEffettuato,setOrdineEffettuato]=useState(false);
   const cartCTX = useContext(CartContext);
   const showCartHandler = (setEditable: boolean) => {
     return () => {
@@ -25,11 +26,23 @@ function App() {
     setShowCart(false);
   };
 
+
+  const updateStateOrder=(ordinato:boolean)=>setOrdineEffettuato(ordinato) //spostare la logica in un context 
+  
+  const rendiCartModificabile=(modificabile:boolean)=>{
+    console.log("sto rendendo modificabile l'ordine!!")
+    if(modificabile){
+      setCartEditable(true)
+      setOrdineEffettuato(false);
+    }
+    
+  }
+
   return (
     <div className="App">
     
           {showCart && (
-            <Cart onClose={hideCartHandler} editable={cartEditable} cart={cartCTX.state.cart} setEditable={setCartEditable}></Cart>
+            <Cart onClose={hideCartHandler} editable={cartEditable} cart={cartCTX.state.cart} setEditable={setCartEditable} ordineEffettuato={ordineEffettuato} setOrdineEffettuato={updateStateOrder}></Cart>
           )}
           <Routes>
             <Route path="/" element={<Home></Home>}></Route>
@@ -59,7 +72,7 @@ function App() {
               ></Route>
               <Route
                 path={paths.ORDINI}
-                element={<Ordini onOpenCart={showCartHandler(true)}></Ordini>}
+                element={<Ordini onOpenCart={showCartHandler(true) } ordineEffettuato={ordineEffettuato} setOrdineModificabile={rendiCartModificabile}></Ordini>}
               ></Route>
             </Route>
           </Routes>

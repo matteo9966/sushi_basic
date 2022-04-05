@@ -26,12 +26,13 @@
 .paragraph-strip{
     background-color: rgba(0, 0, 0, 0.657);
     width: 100vw;
-    height: 8vh;
+    height: 3vh;
     padding:1vh;
     color: rgb(182, 165, 144);
     text-align: center;
     padding-left: 1vw;
     padding-right: 1vw;
+    overflow: hidden;
 }
 
 .paragraph-strip p {
