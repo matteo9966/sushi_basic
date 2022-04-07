@@ -13,7 +13,7 @@ import { IItemCart } from "../../interfaces/IItem";
 import { Dialog } from "../Dialog";
 import { Strip } from "../UI/StripParagrafo";
 
-export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCart[],setEditable?:(editable:boolean)=>void, ordineEffettuato:boolean,setOrdineEffettuato?:(ordinato:boolean)=>void}> = (props) => {
+export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCart[],setEditable?:(editable:boolean)=>void, ordineEffettuato:boolean,setOrdineEffettuato?:(ordinato:boolean)=>void,titoloCart?:string}> = (props) => {
   const [showDialog,setShowDialog]= useState(false)
   const sortedCart = props.cart.sort((itemA, itemB) => itemA.id - itemB.id);
   const TableCTX = useContext(TableContext);
@@ -69,7 +69,7 @@ export const Cart: React.FC<{ onClose: () => void,editable:boolean,cart:IItemCar
       {!!error && showDialog && <Dialog success={false} message={error} showDialog={!!error}></Dialog>}
       <div className={styles["cart-wrapper"]}>
         <i onClick={props.onClose}>&#10006;</i>
-        <h5>Ordinazioni</h5>
+        <h5>{props.titoloCart || "Ordinazioni"}</h5>
           {error}
         <ul>
           {sortedCart.map((item) => {

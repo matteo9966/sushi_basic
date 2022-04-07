@@ -1,10 +1,9 @@
 import styles from "./buttonContainer.module.css";
-import React, { Fragment, useContext } from "react";
-import { CartContext } from "../../store/Cart-Context";
+import React, { useContext } from "react";
 import { TableContext } from "../../store/Table-Context";
 import { ItemButton } from "../buttons/ItemButton";
 
-export const ButtonContainer = () => {
+export const ButtonContainer:React.FC<{editable:boolean}> = (props) => {
   const ctx = useContext(TableContext);
   const numeroPortate = ctx.state.tavolo && ctx.state.tavolo.portate;
   if (!numeroPortate) {
@@ -18,7 +17,7 @@ export const ButtonContainer = () => {
   return (
     <div className={styles.container}>
       {arrayDinumeriPortate.map((item) => {
-        return <ItemButton key={item} id={item}></ItemButton>;
+        return <ItemButton key={item} id={item} editable={props.editable}></ItemButton>;
       })}
     </div>
   );

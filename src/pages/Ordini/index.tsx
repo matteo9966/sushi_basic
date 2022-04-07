@@ -5,16 +5,13 @@ import { HttpOrdini } from "../../fetch/HttpOrdini";
 import styles from "./ordini.module.css";
 import { TableContext } from "../../store/Table-Context";
 import { useHttp } from "../../custom-hooks/use-http";
-import { IItem, IItemCart } from "../../interfaces/IItem";
+import {  IItemCart } from "../../interfaces/IItem";
 import { ITable } from "../../interfaces/ITable";
 import { Dialog } from "../../components/Dialog";
 import { Spinner } from "../../components/UI/Spinner";
 import { Cart } from "../../components/cart";
 import { IUtente } from "../../interfaces/IUtente";
-const listaUtentiFasulli = Array.from({ length: 15 }, (_, i) => ({
-  nome: `matteo ${i}`,
-  ordinazioni: i,
-}));
+
 export const Ordini: React.FC<{
   onOpenCart: () => void;
   ordineEffettuato: boolean;
@@ -26,14 +23,16 @@ export const Ordini: React.FC<{
   }>();
   const [showError, setShowError] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [titoloCart,setTitoloCart]=useState("Ordini tavolo")
+  const [cartDaVisualizzare,setCartDaVisualizzare] = useState<IItemCart[]>([])
   const { error, isLoading, sendRequest } = useHttp<
     string,
     { tavolo: ITable; ordine: IItemCart[] }
   >(HttpOrdini.getCompletOrder);
 
   const {
-    error: nuovoOrdineError,
-    isLoading: nuovoOrdineLoading,
+    error: nuovoOrdineError, //TODO: error quando la richiesta non va a buon fine
+    isLoading: nuovoOrdineLoading, //TODO: loading spinner richiesta login
     sendRequest: sendNuovoOrdineRequest,
     success:nuovoOrdineConSuccesso
   } = useHttp<
@@ -97,12 +96,22 @@ export const Ordini: React.FC<{
     const idUtente = tableCTX.state.utente.id;
     const idTavolo = tableCTX.state.tavolo.codiceTavolo;
     await sendNuovoOrdineRequest({idTavolo,idUtente}, setOrdine);
-    console.log({ordineDentroOnclick:ordine});
+  
     
 
   }
 
-  console.log({ordineEffettuato:props.ordineEffettuato});
+  const onClickVisualizzaOrdini =(cart:IItemCart[],titoloCart="Ordine completo tavolo")=>{
+    return ()=>{
+      console.log('visualizza il tavolo')
+      setTitoloCart(titoloCart)
+      setCartDaVisualizzare(cart)
+      setShowCart(true);
+    }
+
+  }
+
+  
 
   return (
     <div className={styles["ordini-wrapper"]}>
@@ -115,10 +124,11 @@ export const Ordini: React.FC<{
       )}
       {showCart && (
         <Cart
-          cart={ordine?.ordine || []}
+          cart={cartDaVisualizzare}
           onClose={showCartHandler(false)}
           editable={false}
           ordineEffettuato={false}
+          titoloCart={titoloCart}
         ></Cart>
       )}
       {isLoading && <Spinner></Spinner>}
@@ -130,13 +140,14 @@ export const Ordini: React.FC<{
               key={utente.nome}
               nome={utente.nome || ""}
               numeroOrdinazioni={utente.ordinazione?.length || 0}
+              onClickOrdineUtente={onClickVisualizzaOrdini(utente.ordinazione || [],`Ordinazione di ${utente.nome}`)}
             ></Utente>
           ))}
         </ul>
       </div>
 
       <div className={styles["ordinazione-btn-wrapper"]}>
-        <Button onClick={showCartHandler(true)}>Ordine Tavolo</Button>
+        <Button onClick={onClickVisualizzaOrdini(ordine?.ordine || [])}>Ordine Tavolo</Button>
         <Button
           onClick={async () => {
             if (!tableCTX.state.tavolo?.codiceTavolo) {

@@ -3,12 +3,12 @@ import { ButtonContainer } from "../../components/ButtonContainer/ButtonContaine
 import styles from './menu.module.css';
 import React, { Fragment } from 'react'
 
-export const Menu:React.FC<{onOpenCart:()=>void}> = ({onOpenCart}) => {
+export const Menu:React.FC<{onOpenCart:()=>void,editableButton:boolean}> = ({onOpenCart,editableButton}) => {
   return (
     <Fragment>
       <div className={styles['main-container']}>
         <Navbar onOpenCart={onOpenCart}></Navbar>
-        <ButtonContainer></ButtonContainer>
+        <ButtonContainer editable={editableButton}></ButtonContainer>
 
       </div>
         

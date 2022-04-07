@@ -6,6 +6,7 @@ import { addUserResponse } from "../types/AddUser/AddUserResponse";
 import { OrderRequest } from "../types/CreateOrder/OrderRequest";
 import { OrderResponse } from "../types/CreateOrder/OrderResponse";
 import { OrdineCompletoResponse } from "../types/OrdineCompleto/OrdineCompletoResponse";
+import { thisTableResponse } from "../types/ThisTable/thisTable";
 export class HttpOrdini {
 
       /* 
@@ -60,8 +61,21 @@ DELETE	/clearOrders/:id	svuota tutte le ordinazioni del tavolo
     return response.payload;
   
   }
-  static async thisTable() {}
   static async deleteAllOrders() {}
+  
+  static async thisTable(idTavolo:string) {
+    if(!idTavolo) throw new Error("ID tavolo non presente")
+    const endpoint = `/thisTable/${idTavolo}`
+
+
+    const response = await HttpFetch.getInstance().get<thisTableResponse>(endpoint);
+
+    console.log({response,endpoint});
+    if(!response) return 
+    if(response.errorCode!= null){throw new Error(response.errorDescription)}
+    return response.payload;
+
+  }
 
   static async deleteUserOrder(params:{idTavolo:string,idUtente:string}){
     if(!params.idTavolo || !params.idUtente){

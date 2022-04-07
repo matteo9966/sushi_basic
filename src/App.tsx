@@ -58,12 +58,12 @@ function App() {
              
               <Route
                 index
-                element={<Menu onOpenCart={showCartHandler(cartEditable)}></Menu>}
+                element={<Menu onOpenCart={showCartHandler(cartEditable)} editableButton={cartEditable}></Menu>}
               ></Route>
 
               <Route
                 path={paths.MENU}
-                element={<Menu onOpenCart={showCartHandler(cartEditable)}></Menu>}
+                element={<Menu onOpenCart={showCartHandler(cartEditable)} editableButton={cartEditable}></Menu>}
               ></Route>
 
               <Route
