@@ -7,7 +7,7 @@ export function useLocalStorage<T>(
   setValue: (value: T) => void,
   removeFromLocalStorage: () => void
 ] {
-  const [value, setValue] = useState(() => {
+  const [value, setValue] = useState(() => { // inizializzo useState con 1 quello che trovo in memoria oppure qualcosa che è già salvato
     const objectInMemory = window.localStorage.getItem(key);
     if (objectInMemory) return JSON.parse(objectInMemory);
     if (typeof defaultValue === "function") return defaultValue();
@@ -15,6 +15,7 @@ export function useLocalStorage<T>(
   });
 
   useEffect(() => {
+    console.log({valoreInserito:value})
     if (value == undefined) {
       window.localStorage.removeItem(key);
     } else {

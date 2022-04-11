@@ -11,8 +11,14 @@ import { Menu } from "./pages/Menu";
 import { CondivisioneCodice } from "./pages/CondivisioneCodice";
 import { Layout } from "./components/UI/Layout";
 import { Ordini } from "./pages/Ordini";
+import {ProtectedRoute} from './utils/protectedRoutes/index';
+
+
+const Protected:React.FC<{children:React.ReactElement,loggedIn:boolean}> = (props)=><ProtectedRoute redirectTo="/" loggedIn={props.loggedIn}>{props.children}</ProtectedRoute>
+
 function App() {
   const [showCart, setShowCart] = useState(false);
+  const [loggedIn,setLoggedIn] =useState(false);
   const [cartEditable, setCartEditable] = useState(true);
   const [ordineEffettuato,setOrdineEffettuato]=useState(false);
   const cartCTX = useContext(CartContext);
@@ -48,17 +54,29 @@ function App() {
             <Route path="/" element={<Home></Home>}></Route>
             <Route
               path={paths.CREATAVOLO}
-              element={<CreaTavolo></CreaTavolo>}
+              element={<CreaTavolo 
+                loggedIn={loggedIn}
+                setIsLoggedIn={setLoggedIn}
+                ></CreaTavolo>}
             />
             <Route
               path={paths.AGGIUNGITI}
-              element={<Aggiungiti></Aggiungiti>}
+              element={<Aggiungiti setCartEditable={setCartEditable} updateStateOrder={updateStateOrder}    loggedIn={loggedIn}
+              setIsLoggedIn={setLoggedIn}> </Aggiungiti>}
             />
-            <Route path={paths.HOME} element={<Layout></Layout>}>
+            <Route path={paths.HOME} element={
+               <Protected loggedIn={loggedIn}>
+                 <Layout></Layout>
+               </Protected>
+            }>
              
               <Route
                 index
-                element={<Menu onOpenCart={showCartHandler(cartEditable)} editableButton={cartEditable}></Menu>}
+                element={
+             
+                  <Menu onOpenCart={showCartHandler(cartEditable)} editableButton={cartEditable}></Menu>
+              
+              }
               ></Route>
 
               <Route

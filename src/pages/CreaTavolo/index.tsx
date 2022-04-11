@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from "react";
+import React, { useContext,useEffect,useState } from "react";
 import { TableContext } from "../../store/Table-Context";
 import { Button } from "../../components/UI/Buttons/Button";
 import { Input } from "../../components/UI/Input";
@@ -13,16 +13,20 @@ import {  useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/UI/Spinner";
 import { paths } from "../../globals/paths";
 import { HttpOrdini } from "../../fetch/HttpOrdini";
-export const CreaTavolo = () => {
+import { useLocalStorage } from "../../custom-hooks/use-storage";
+import { Dialog } from "../../components/Dialog";
+export const CreaTavolo:React.FC<{loggedIn:boolean,setIsLoggedIn:(loggedin:boolean)=>void}> = (props) => {
   const tableCTX = useContext(TableContext);
   const navigator = useNavigate();
-  
+  const [value,setValue,remove] = useLocalStorage<{[key:string]:string}>({},"table-data");
+  const [aggiornatoValueInLocalStorage,setAggiornatoValueInLocalStorage]=useState(false)
+  const [showDialog,setShowDialog] = useState(false);
+
   const aggiornaInformazioniTavolo=(infoTavolo:{ tavolo: ITable; utente: IUtente })=>{
-    console.log("eseguo aggiorna informazioni tavolo")
-    if(infoTavolo.tavolo.codiceTavolo && infoTavolo.tavolo.portate){
+    
+    if(infoTavolo.tavolo && infoTavolo.utente){
       tableCTX.aggiornaInfoTavolo(infoTavolo.tavolo)
       tableCTX.aggiornaInfoUtente(infoTavolo.utente)
-    
     }
     
   }
@@ -33,18 +37,40 @@ export const CreaTavolo = () => {
   CreateTableRequest,
   { tavolo: ITable; utente: IUtente }
   >(HttpOrdini.createTable);
+
+
   
   useEffect(()=>{
-    if(tableCTX.state && tableCTX.state.tavolo && tableCTX.state.tavolo.portate && tableCTX.state.tavolo.codiceTavolo ){
-      console.log("eseguo aggiornamento stato")
-      navigator("/"+paths.HOME+'/'+paths.CONDIVIDICODICE);
-     }
-     
-    if(error){
-      console.log(error);
+    if(tableCTX.state && tableCTX.state.tavolo && tableCTX.state.tavolo.portate && tableCTX.state.tavolo.codiceTavolo && tableCTX.state.utente && tableCTX.state.utente.id ){
+      console.log({IDutente:tableCTX.state.utente.id,IDtavolo:tableCTX.state.tavolo.codiceTavolo})
+      setValue({IDutente:tableCTX.state.utente.id,IDtavolo:tableCTX.state.tavolo.codiceTavolo})
+      props.setIsLoggedIn(true);
+      setAggiornatoValueInLocalStorage(true);
     }
+  },[tableCTX.state,tableCTX.state.tavolo?.codiceTavolo,tableCTX.state.utente?.id,setValue])
 
-  },[tableCTX.state,error,navigator])
+  
+  useEffect(()=>{
+    let timeoutID:NodeJS.Timeout;
+    if(!!error){
+       setShowDialog(true)
+       timeoutID=setTimeout(()=>{setShowDialog(false)},3500);
+    }
+    
+    return ()=>clearTimeout(timeoutID);
+    
+  },[error])
+
+
+  useEffect(()=>{
+
+    if(aggiornatoValueInLocalStorage && props.loggedIn){
+
+      navigator("/"+paths.HOME+'/'+paths.CONDIVIDICODICE);
+    }
+    
+  },[navigator,props.loggedIn,aggiornatoValueInLocalStorage])
+
   
   const {
     value: nomeValue,
@@ -84,24 +110,29 @@ export const CreaTavolo = () => {
 
 
   const  onClickHandler = async () => {
-    if ( nomeHasError || numeroPiattiHasError || copertiHasError) {
+    if(!nomeValue || !numeroPiattiValue || !copertiValue) return 
+    if ( !nomeHasError && !numeroPiattiHasError && !copertiHasError) {
+      console.log({nomeHasError, numeroPiattiHasError,copertiHasError});
+      console.table({ nomeValue, numeroPiattiValue, copertiValue });
+      await sendRequest(
+        {
+          nome: nomeValue,
+          tavolo: { coperti: +copertiValue, portate: +numeroPiattiValue },
+        },
+        aggiornaInformazioniTavolo
+      );
+    }
+    else{
+
       return false
     }
-    console.table({ nomeValue, numeroPiattiValue, copertiValue });
-    await sendRequest(
-      {
-        nome: nomeValue,
-        tavolo: { coperti: +copertiValue, portate: +numeroPiattiValue },
-      },
-      aggiornaInformazioniTavolo
-    );
-
 
     
   };
 
   return (
     <div className={styles.creatavolo}>
+      {showDialog && <Dialog message={error || "Errore,riprova più tardi"} success={false} showDialog={!!error}></Dialog>}
       {isLoading && <Spinner></Spinner>}
       <h3>Crea un tavolo</h3>
       <span className={styles["input-area"]}>

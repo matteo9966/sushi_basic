@@ -19,7 +19,7 @@ export const Footer = () => {
           </span>
         <span className={styles["footer-item"]}>
 
-           <FooterButton titolo="Condividi Codice" img={iconTavolo} to={paths.CONDIVIDICODICE}></FooterButton>
+           <FooterButton titolo="Codice" img={iconTavolo} to={paths.CONDIVIDICODICE}></FooterButton>
           </span>
       
       </div>

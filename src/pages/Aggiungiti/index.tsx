@@ -16,13 +16,18 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "../../globals/paths";
 import { Dialog } from "../../components/Dialog";
 import { CartContext } from "../../store/Cart-Context";
-export const Aggiungiti = () => {
+export const Aggiungiti:React.FC<{setCartEditable:(editable:boolean)=>void,updateStateOrder:(orderstate:boolean)=>void,loggedIn:boolean,setIsLoggedIn:(loggedin:boolean)=>void}> = (props) => {
   const cartCTX = useContext(CartContext);
   const [value,setValue,remove] = useLocalStorage<{[key:string]:string}>({},"table-data");
+  
+  /**
+   * @description data è il payload che ricevo da una richiesta dal backend,
+   * @param data 
+   */
   const aggiornaInfoTavolo = (data:{tavolo:ITable,utente:IUtente})=>{ 
     if(data.utente.id && data.tavolo.codiceTavolo){
       setValue({IDutente:data.utente.id,IDtavolo:data.tavolo.codiceTavolo}) 
-
+      props.setIsLoggedIn(true);
     } 
     tableCTX.aggiornaInfoUtente(data.utente);
      tableCTX.aggiornaInfoTavolo(data.tavolo)
@@ -30,10 +35,17 @@ export const Aggiungiti = () => {
   }
    
   
+  /**
+   * 
+   * @description setThisTableInfo prende id utente e restituisce una funzione che viene passata al sendRequest function che mi viene 
+   * restituito da useHttp hook
+   * @returns 
+   */
    const setThisTableInfo =(idUtente:string)=>{
-    //  console.log({ID_utente:idUtente})
+    
     return (tavolo:ITable)=>{
-      console.log({tavolo,idUtente});
+     
+
       const utente = tavolo.utenti && tavolo.utenti.find(utente=>utente.id===idUtente);
       if(!utente){
         remove();
@@ -42,6 +54,7 @@ export const Aggiungiti = () => {
       const itemsOfUtente = utente.ordinazione || [];
       itemsOfUtente.forEach(item=>cartCTX.addItem(item))
       aggiornaInfoTavolo({tavolo,utente})
+   
     
 
       
@@ -68,18 +81,26 @@ export const Aggiungiti = () => {
   
     setShowDialog(true)
     timeoutID=setTimeout(()=>{setShowDialog(false)},3000);
+ 
   }
 
   if(tableCTX.state.utente && tableCTX.state.utente.id ){
+    const numberOfItems = cartCTX.state.cart.length;
+    if(numberOfItems>0){
+      props.setCartEditable(false);
+      props.updateStateOrder(true); // ordine effettuato
+    }
+    if(props.loggedIn){
+      navigator('/'+paths.HOME)
 
-    navigator('/'+paths.HOME)
+    }
     //tutto è andato bene posso andare alla pagina degli ordini
 
   }
   
   return ()=>clearTimeout(timeoutID)
 
- },[error,tableCTX.state])
+ },[props.loggedIn,error,tableCTX.state])
 
 
  
@@ -136,6 +157,8 @@ export const Aggiungiti = () => {
     <div className={styles.aggiungiti}>
       {showDialog && <Dialog message={error || "Errore,riprova più tardi"} success={false} showDialog={!!error}></Dialog>}
       {isLoading && <Spinner></Spinner>}
+      {getThisTableLoading && <Spinner></Spinner>}
+     
       <h3>Aggiungiti</h3>
       <span className={styles["input-area"]}>
         <Input
