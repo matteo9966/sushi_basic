@@ -3,14 +3,34 @@
     display: flex;
     justify-content: space-between;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 3vw;
     padding-top:1vh;
     padding-bottom:1vh;
     padding-left: 2ch;
     padding-right: 3ch;
     margin: auto;
     margin-bottom: 3ch;
-    margin-top:2ch;
     border-radius: 3vh;
     background-color: gray;
 }
+
+/* Smartphones (landscape) */
+@media only screen and (min-width : 400px) {
+    .custom-button{
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        font-family: inherit;
+        font-size: 3vh;
+        padding-top:1vh;
+        padding-bottom:1vh;
+        padding-left: 2ch;
+        padding-right: 3ch;
+        margin: auto;
+        margin-bottom: 3ch;
+        border-radius: 3vh;
+        background-color: gray;
+    }
+ 
+}
+ 

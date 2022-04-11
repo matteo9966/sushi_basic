@@ -42,6 +42,19 @@ export const Ordini: React.FC<{
     },
     { tavolo: ITable; ordine: IItemCart[] }
   >(HttpOrdini.deleteUserOrder);
+  
+  const {
+    error: rimuoviUtenteError, //TODO: error quando la richiesta non va a buon fine
+    isLoading: rimuoviUtenteLoading, //TODO: loading spinner richiesta login
+    sendRequest: rimuoviUtenteRequest,
+    success:rimossoUtenteConSuccesso
+  } = useHttp<
+    {
+      idTavolo: string;
+      idUtente: string;
+    },
+    { tavolo: ITable; ordine: IItemCart[] }
+  >(HttpOrdini.removeUserFromTable);
 
   const tableCTX = useContext(TableContext);
 
@@ -111,6 +124,15 @@ export const Ordini: React.FC<{
 
   }
 
+  const onClickRimuoviUtenteFactory= (idUtente?:string) => {
+    if(!idUtente) return ()=>{}
+    if(!tableCTX || !tableCTX.state || !tableCTX.state.tavolo || !tableCTX.state.tavolo.codiceTavolo) return ()=>{}
+    const idTavolo = tableCTX.state.tavolo.codiceTavolo;
+      return async ()=>{
+           await rimuoviUtenteRequest({idTavolo,idUtente},setOrdine) 
+      }
+  }
+
   
 
   return (
@@ -131,12 +153,14 @@ export const Ordini: React.FC<{
           titoloCart={titoloCart}
         ></Cart>
       )}
-      {isLoading && <Spinner></Spinner>}
+      {isLoading ||nuovoOrdineLoading || rimuoviUtenteLoading && <Spinner></Spinner>}
       <h4 className={styles.titolo}>Coperti</h4>
       <div className={styles.utenti}>
         <ul>
           {utentiAlTavolo.map((utente) => (
             <Utente
+              isAdmin={(!!tableCTX.state.utente?.isAdmin) && !(!!utente.isAdmin)}
+              onClickRimuoviUtente={onClickRimuoviUtenteFactory(utente.id)}
               key={utente.nome}
               nome={utente.nome || ""}
               numeroOrdinazioni={utente.ordinazione?.length || 0}

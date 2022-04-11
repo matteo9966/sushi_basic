@@ -5,4 +5,5 @@ export interface IUtente {
     id?:string,
     nome?:string,
     ordinazione?:IItemCart[];
+    isAdmin?:boolean; // admin può rimuovere utenti dal tavolo
 }

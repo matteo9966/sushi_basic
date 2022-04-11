@@ -22,6 +22,7 @@ code {
 .App {
   overflow: hidden;
   font-family: 'Reggae One';
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
