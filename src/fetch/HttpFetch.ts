@@ -1,7 +1,8 @@
 import { makeFetchConfig } from "../utils/makeFetchConfig";
 export class HttpFetch {
   private static instance: HttpFetch;
-  private baseurl = "http://localhost:4444/api/v1";
+  private baseurl = "/api/v1";
+
   private constructor() {
     this.post = this.post.bind(this);
   }

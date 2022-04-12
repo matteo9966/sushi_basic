@@ -137,9 +137,11 @@ export const Aggiungiti:React.FC<{setCartEditable:(editable:boolean)=>void,updat
     if (!codiceTavoloHasError && !nomeHasError && !codiceTavoloHasError) {
       console.table({ nomeValue, codiceTavoloValue });
       //vado a vedere nel sessionStorage se c'è qualcosa, se c'è qualcosa faccio una  richiesta diversa non quella di newUser
-      if(value.hasOwnProperty('IDutente') && value.hasOwnProperty('IDtavolo')){
+      const codiceTavolo = codiceTavoloValue.toUpperCase()
+      if(value.hasOwnProperty('IDutente') && value.hasOwnProperty('IDtavolo') && value.IDtavolo === codiceTavolo){
           //c'è in memoria, allora faccio una richiesta con questi dati 
           console.log(value);
+          
           await sendRequestForThisTable(value.IDtavolo,setThisTableInfo(value.IDutente))
           
        
